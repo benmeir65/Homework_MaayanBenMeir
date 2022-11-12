@@ -1,9 +1,53 @@
-﻿@page "/"
+﻿@page "/Lesson_3"
 
-<PageTitle>Index</PageTitle>
+<h3> Lesson_3 </h3>
+<input type ="text" @bind="num1" />
+<input type ="text" @bind="num2" />
+<input type ="text" @bind="num3" />
+<input type ="text" @bind="num4" />
+<input type ="text" @bind="num5" />
 
-<h1>Hello, world!</h1>
+<input type="button" class="btn btn-primary" @onclick="list" value="Get the numbers" /> <br />
+<input type="button" class="btn btn-primary" @onclick="calculate" value="calculate" /> <br />
+<span> @nofive  </span> <br />
+<span> The sum of the numbers is @sum_result  </span>  <br />
+<span>    the biggest number is @big_result  </span> <br />
+<span>  The average of the numbers is @avg_result  </span>
 
-Welcome to your new app.
+@code  
+{
+		string num1 ="";
+		string num2 ="";
+		string num3 ="";
+		string num4 ="";
+		string num5 ="";
+		string nofive = " ";
+		// dsiplay
+		string sum_result = "";
+		string big_result = "";
+		string avg_result = "";
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+		List<double> numbers = new List<double>();
+		void list() {
+			numbers.Add(Convert.ToDouble(num1));
+			numbers.Add(Convert.ToDouble(num2));
+			numbers.Add(Convert.ToDouble(num3));
+			numbers.Add(Convert.ToDouble(num4));
+			numbers.Add(Convert.ToDouble(num5));
+		}
+
+		void calculate( ) {
+			if (numbers.Count == 5) {
+				numbers.Sort();
+				big_result = numbers[4].ToString();
+				sum_result = (numbers[0] + numbers[1] + numbers[2] + numbers[3] + numbers[4]).ToString();
+				avg_result = (Convert.ToDouble(sum_result) / 5).ToString();
+			}
+    
+			else 
+			{
+			nofive = "You must enter five numbers ";
+			}
+
+	}
+}
