@@ -1,0 +1,64 @@
+﻿
+@page "/Lesson4"
+
+<h4>Lesson4</h4>
+
+<h5>תרגיל 1</h5>
+<ul>
+	@foreach (string STATE in countries) {
+		<li>@STATE</li>
+	}
+</ul> 
+<br /> 
+<h6>תרגיל 2</h6>
+<input type="text"  @bind=string />
+<span>  @myStringFunc(string)  </span>
+<br /> 
+<h7>תרגיל 3</h7>
+<input type ="text" @bind="num"  />
+<br /> 
+<input type="button" class="btn btn-primary" @onclick="check(num)" value="check" /> <br />
+<br />
+<span>  @output  </span> 
+
+
+@code {
+
+		String string= " הקלד את הטקסט שלך כאן ";
+		String num = "הקלד מספר בין אפס לאחד";
+		output = " ";
+
+	List <string> countries = new List  <string>();
+	protected override void OnInitialized() {
+		countries.Add("Russia");
+		countries.Add("Germany");
+		countries.Add("United Kingdom");
+		countries.Add("France");
+		countries.Add("Italy");
+		countries.Add("Spain");
+		countries.Add("Ukraine");
+		countries.Add("Poland");
+	}
+
+	private string myStringFunc(str);
+	{
+		return "אורך המחרוזת" + @str  +  "הוא"  + @str.length;
+
+	}
+
+	private void check(new num);
+{
+if  (covert.toInt(nuw num) > 0 && covert.toInt(nuw num) < 9 )
+{
+	output = "עליך לרשום מספר בין אפס לעשר";
+
+	else 
+	for (if=0; i<=covert.toInt(nuw num) i ++)
+	{
+	 output = countries [i]
+	}
+
+}
+}
+}
+
