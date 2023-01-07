@@ -1,0 +1,135 @@
+﻿@page "/Lesson8" 
+
+@using BlazorApp1.Shared.schools;
+@using BlazorApp1.Server.Controllers;
+
+<h1>schools Interface:</h1> 
+
+@if(schools_list != null) {
+    <ul>
+        @foreach (Schools OneRow in Schools_list) {
+		<li>@(OneRow.ID.ToString() + " : " + OneRow.manager.ToString() + " : " +   OneRow.Is_religious.ToString() +" : " +    OneRow.num_of_classes.ToString()    )</li>        
+        	}
+    </ul>
+}
+
+
+@if (school != null)
+{
+       <p>    manager:  <input type="text" @bind=school.manager />   </p>
+    <br />
+     <p>    num_of_classes :  <input type="text" @bind=school.num_of_classes />   </p>
+     <br />
+       }
+<input type="button" value="Insert school" @onclick="create_school" />
+
+
+
+@code {
+   
+  List<schools> school_list;
+	protected override async Task OnInitializedAsync() {
+		var allResponse = await Http.GetAsync("api/schools/Getschools");
+		if (allResponse.IsSuccessStatusCode == true) {
+			school_list= allResponse.Content.ReadFromJsonAsync<List<schools >>().Result;
+		}
+    } 
+     
+
+async Task createschool() {
+    schoolToSend school = new schoolToSend();
+	var insertResponse = await Http.PostAsJsonAsync("api/schools/Insertschool", school );
+    
+	if(insertResponse.IsSuccessStatusCode == true) {
+    schoolToSend new_school =insertResponse.Content.ReadFromJsonAsync<schoolToSend>().Result;
+     		school_list.Add( new_school );
+	}
+}
+
+
+        	}
+
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@if (singleCourse != null)
+{
+    <div>
+        <p>Course Name: @singleCourse.CourseName</p>
+        <p>Teacher Name: @singleCourse.TeacherName</p>
+        <p>Course Credit: @singleCourse.CourseCredit</p>
+        <p>Is Exam: @singleCourse.IsExam</p> 
+        <input type="button" value="Update the Course" @onclick=" updateCourse " />
+    </div>
+}
+<h2>Check String</h2> 
+    הכנס מחרוזת <input type="text" @bind="stringToCheck" />  <br />    
+   <input type="button" value="Update the Course" @onclick="chekStr" />
+
+
+
+
+@code
+{
+        Courses singleCourse = new Courses();
+
+        protected override void OnInitialized()  
+        {
+		singleCourse.CourseName = "Math For Beginners";
+		singleCourse.TeacherName = "Daniel Levi";
+		singleCourse.CourseCredits = 2;
+		singleCourse.IsExam = true;
+	}
+
+
+        async Task chekStr()
+
+        {
+            string stringToCheck = " ";
+            var getcourseResponse = await Http.GetAsync("api/Courses/stringToCheck");
+            if(getcourseResponse.IsSuccessStatusCode == true)
+            {
+                singleCourse.CourseName = getcurse.Content.ReadAsStringAsync<Course>().Result;
+            }
+
+        }
+
+        async Task updateCourse() 
+        {
+            var PostCourseResponse = await Http.PostAsync("api/ Courses /singleCourse");
+            if (PostCourseResponse.IsSuccessStatusCode == true)
+            {
+                singleCourse.CourseName = PostResponse.Content.ReadFromJsonAsync<Course>().Result;
+                singleCourse = PostResponse.Content.ReadFromJsonAsync<Course>().Result;
+
+            }
+        }
+        }
